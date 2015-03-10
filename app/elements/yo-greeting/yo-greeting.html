@@ -1,0 +1,30 @@
+<dom-module id="yo-greeting">
+  <style>
+    :host {
+      display: block;
+    }
+    h1 {
+      color: red;
+    }
+  </style>>
+  <template>
+    <h1>{{greeting}}</h1>
+    <span>Update text to change the greeting.</span>
+    <input id="inp" on-input="updateGreeting" type="text" value="{{greeting}}">
+  </template>
+</dom-module>
+<script>
+  Polymer({
+    properties: {
+      greeting: {
+        type: String,
+        value: '\'Allo',
+        reflect: true
+      }
+    },
+    is: 'yo-greeting',
+    updateGreeting: function(event) {
+      this.greeting = event.target.value;
+    }
+  });
+</script>
