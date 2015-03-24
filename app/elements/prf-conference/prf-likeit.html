@@ -1,24 +1,22 @@
 <link rel="import" href="../polymer.html">
 
-<dom-module id="prf-likeit">
-  <link rel="import" type="css" href="prf-likeit.css">
-  <template>
-    <button class="btn">Мне нравится</button>
-    <button class="count">{{countPlus}}</button>
-  </template>
-</dom-module>
+<template>
+  <button class="btn">Мне нравится</button>
+  <button class="count"></button>
+</template>
 <script>
   Polymer({
     is: 'prf-likeit',
     properties: {
-      count: String,
-      countPlus: {
-        type: String,
-        computed: 'computePlus(count)'
-      }
+      count: String
     },
-    computePlus: function(count) {
-      return '+' + count;
+    created: function() {
+/*      var temp = document.querySelector('template');
+      console.log(temp);*/
+ //     this.innerHTML = 'Hello World, my user is ' + (this.count || 'nobody') + '.';
+    },
+    attached: function() {
+      //this.querySelector('button.count')[0].innerHTML = this.count;
     }
   });
 </script>

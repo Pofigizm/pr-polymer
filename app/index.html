@@ -23,6 +23,52 @@
 </head>
 
 <body>
+<!-- <script>
+  var ctor = function() {
+    return document.createElement('my-elem');
+  };
+  ctor.prototype = Object.create(HTMLElement.prototype);
+  ctor.prototype.constructor = ctor;
+  ctor.prototype.createdCallback = function() {
+    this.innerHTML = 'Пару слов о себе';
+  };
+  document.registerElement('my-elem', ctor);
+</script>
+<my-elem></my-elem> -->
+
+<!-- <script>
+  var proto = Object.create(HTMLElement.prototype);
+  proto.createdCallback = function() {
+    this.innerHTML = 'Пару слов о себе';
+  };
+  document.registerElement('my-elem', {prototype: proto});
+/*  document.body.appendChild(document.createElement('my-elem'));*/
+</script>
+<my-elem></my-elem> -->
+
+<!-- <template id="temp">
+  <div>Пару слов о себе</div>
+</template>
+<script>
+  var template = document.querySelector('#temp');
+  var clone = template.content.cloneNode(true);
+  document.body.appendChild(clone);
+</script> -->
+
+<!-- 
+<template id="temp">
+  <div><content></content> Пару слов о себе</div>
+</template>
+<script>
+  var temp = document.querySelector('#temp');
+  var proto = Object.create(HTMLElement.prototype);
+  proto.createdCallback = function() {
+    var shadow = this.createShadowRoot();
+    shadow.appendChild(temp.content);
+  };
+  document.registerElement('my-elem', {prototype: proto});
+</script>
+<my-elem><b>Денис!</b></my-elem> -->
 
   <!-- Main Content -->
   <div class="hero-unit">
@@ -33,7 +79,7 @@
   </div>
 
   <!-- build:js /scripts/app.js -->
-  <script src="/scripts/app.js"></script>
+  <!-- <script src="/scripts/app.js"></script> -->
   <!-- endbuild-->
 </body>
 

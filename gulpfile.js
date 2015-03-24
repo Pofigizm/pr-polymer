@@ -57,9 +57,9 @@ gulp.task('copy', function () {
     dot: true
   }).pipe(gulp.dest('dist'));
 
-  var os = gulp.src([
-    'os_components/**/*'
-  ]).pipe(gulp.dest('dist/os_components'));
+ // var os = gulp.src([
+    //'os_components/**/*'
+ // ]).pipe(gulp.dest('dist/os_components'));
 
   var elements = gulp.src(['app/elements/**/*.html'])
     .pipe(gulp.dest('dist/elements'));
@@ -68,7 +68,11 @@ gulp.task('copy', function () {
     .pipe($.rename('elements.vulcanized.html'))
     .pipe(gulp.dest('dist/elements'));
 
-  return merge(app, os, elements, vulcanized).pipe($.size({title: 'copy'}));
+  var polymerized = gulp.src(['app/elements/polymer.html'])
+    .pipe($.rename('polymer.vulcanized.html'))
+    .pipe(gulp.dest('dist/elements'));
+
+  return merge(app, /*os,*/ elements, vulcanized, polymerized).pipe($.size({title: 'copy'}));
 });
 
 // Copy Web Fonts To Dist
@@ -112,8 +116,8 @@ gulp.task('html', function () {
   return gulp.src(['app/**/*.html', '!app/{elements,test}/**/*.html'])
     // Replace path for vulcanized assets
     .pipe($.if('*.html', $.replace('elements/elements.html', 'elements/elements.vulcanized.html')))
-    .pipe(assets)
-    // Concatenate And Minify JavaScript
+    //.pipe(assets)
+/*    // Concatenate And Minify JavaScript
     .pipe($.if('*.js', $.uglify({preserveComments: 'some'})))
     // Concatenate And Minify Styles
     // In case you are still using useref build blocks
@@ -125,7 +129,7 @@ gulp.task('html', function () {
       quotes: true,
       empty: true,
       spare: true
-    })))
+    })))*/
     // Output Files
     .pipe(gulp.dest('dist'))
     .pipe($.size({title: 'html'}));
@@ -142,6 +146,19 @@ gulp.task('vulcanize', function () {
     }))
     .pipe(gulp.dest(DEST_DIR))
     .pipe($.size({title: 'vulcanize'}));
+});
+
+// Vulcanize polymer
+gulp.task('polymerized', function () {
+  var DEST_DIR = 'dist/elements';
+
+  return gulp.src('dist/elements/polymer.vulcanized.html')
+    .pipe($.vulcanize({
+      dest: DEST_DIR,
+      strip: true
+    }))
+    .pipe(gulp.dest(DEST_DIR))
+    .pipe($.size({title: 'polymerized'}));
 });
 
 // Clean Output Directory
@@ -187,8 +204,8 @@ gulp.task('default', ['clean'], function (cb) {
   runSequence(
     ['copy', 'styles'],
     'elements',
-    ['jshint', 'images', 'fonts', 'html'],
-    'vulcanize',
+    [/*'jshint', 'images', 'fonts',*/ 'html'],
+    ['vulcanize', 'polymerized'],
     cb);
 });
 
